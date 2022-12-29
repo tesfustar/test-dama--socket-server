@@ -15,7 +15,7 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
   //when ceonnect
   console.log("a user connected.");
-
+ io.emit("wel","you are now connected")
   //send and get message
   socket.on("sendMessage", (data) => {
     io.emit("getMessage", data);
