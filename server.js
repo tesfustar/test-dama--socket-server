@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://dama-game-socketio.vercel.app",
   },
 });
 
@@ -18,7 +18,7 @@ io.on("connection", (socket) => {
 
   //send and get message
   socket.on("sendMessage", (data) => {
-    io.emit("getMessage", data);
+    io.to().emit("getMessage", data);
   });
 
   //when disconnect
