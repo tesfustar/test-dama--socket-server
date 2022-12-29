@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: ["https://dama-game-socketio.vercel.app","http://localhost:3000"],
+    origin: ["https://dama-game-socketio.vercel.app","https://dama-blue.vercel.app"],
   },
 });
 
