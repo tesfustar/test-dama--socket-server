@@ -26,6 +26,6 @@ io.on("connection", (socket) => {
     console.log("a user disconnected!");
   });
 });
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 7744;
 httpServer.listen(PORT);
 
