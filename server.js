@@ -6,7 +6,7 @@ const io = new Server(httpServer, {
   cors: {
     origin: ["https://dama-game-socketio.vercel.app",
     "http://localhost:3000",
-    "http://172.17.104.242:3000","https://admin.socket.io"],
+    "https://dama-blue.vercel.app","https://admin.socket.io"],
     credentials: true
   },
 });
