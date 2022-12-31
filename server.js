@@ -1,10 +1,13 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
-
+import { instrument } from "@socket.io/admin-ui";
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: ["https://dama-game-socketio.vercel.app","http://localhost:3000"],
+    origin: ["https://dama-game-socketio.vercel.app",
+    "http://localhost:3000",
+    "http://172.17.104.242:3000","https://admin.socket.io"],
+    credentials: true
   },
 });
 
@@ -13,18 +16,38 @@ const io = new Server(httpServer, {
 
 
 io.on("connection", (socket) => {
-  //when ceonnect
+// console.log(socket.id)
+  //user connection
   console.log("a user connected.");
- io.emit("wel","you are now connected")
-  //send and get message
-  socket.on("sendMessage", (data) => {
-    io.emit("getMessage", data);
-  });
+
+   socket.on('join-room',async(room)=>{
+
+     const clients =await io.of('/').in(room).fetchSockets()
+      if(clients.length == 2 ){
+
+        // io.to(room).emit("started","you can play now")
+        io.to(socket.id).emit("roomTwo","room is filled")
+      }else{
+        socket.join(room)
+        io.to(room).emit("private-room","you are now in private room")
+      }
+    //send and get message
+  
+    socket.on("sendMessage", (data) => {
+      io.to(room).emit("getMessage", data)
+    });
+    socket.on("sendGameMessage", (data) => {
+      io.to(room).emit("getGameMessage", data)
+    });
+   })
 
   //when disconnect
   socket.on("disconnect", () => {
-    console.log("a user disconnected!");
+    console.log("a user disconnected!")
   });
+});
+instrument(io, {
+  auth: false
 });
 const PORT = process.env.PORT || 7744;
 httpServer.listen(PORT);
