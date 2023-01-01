@@ -39,6 +39,9 @@ io.on("connection", (socket) => {
     socket.on("sendGameMessage", (data) => {
       io.to(room).emit("getGameMessage", data)
     });
+   socket.on("sendResetGameMessage", (data) => {
+      io.to(room).emit("getResetGameMessage", data);
+    });
    })
 
   //when disconnect
