@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
       io.to(room).emit("getGameMessage", data);
     });
     socket.on("sendResetGameMessage", (data) => {
-      io.to(room).emit("getResetGameMessage", data);
+      io.to(room).broadcast.emit("getResetGameMessage", data);
     });
   });
 
