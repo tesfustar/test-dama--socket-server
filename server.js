@@ -39,7 +39,10 @@ io.on("connection", (socket) => {
     });
     socket.on("sendResetGameMessage", (data) => {
       io.to(room).emit("getResetGameMessage", data);
-      // socket.broadcast.to(room).emit("getResetGameMessage", data);
+    });
+    socket.on("sendRejectGameMessage", (data) => {
+      // io.to(room).emit("getRejectGameMessage", data);
+      socket.broadcast.to(room).emit("getRejectGameMessage", data);
     });
   });
 
