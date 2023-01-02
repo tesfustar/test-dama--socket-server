@@ -33,8 +33,12 @@ io.on("connection", (socket) => {
     socket.on("sendGameMessage", (data) => {
       io.to(room).emit("getGameMessage", data);
     });
+    socket.on("sendResetGameRequest", (data) => {
+      io.to(room).broadcast.emit("getResetGameRequest", data);
+    });
     socket.on("sendResetGameMessage", (data) => {
-      io.to(room).broadcast.emit("getResetGameMessage", data);
+      // io.to(room).emit("getResetGameMessage", data);
+      socket.broadcast.to(room).emit("getResetGameMessage", data);
     });
   });
 
