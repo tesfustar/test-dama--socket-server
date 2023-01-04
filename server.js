@@ -4,10 +4,16 @@ import { instrument } from "@socket.io/admin-ui";
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: ["https://dama-game-socketio.vercel.app","http://172.17.104.242:3000",
-    "http://localhost:3000","http://192.168.0.145:3000","http://192.168.0.143:3000",
-    "https://dama-blue.vercel.app","https://admin.socket.io","http://192.168.0.102:3000"],
-    credentials: true
+    origin: [
+      "https://dama-game-socketio.vercel.app",
+      "http://172.17.104.242:3000",
+      "http://localhost:3000",
+      "http://192.168.0.145:3000",
+      "http://192.168.0.105:3000",
+      "https://dama-blue.vercel.app",
+      "https://admin.socket.io",
+    ],
+    credentials: true,
   },
 });
 
@@ -40,19 +46,21 @@ io.on("connection", (socket) => {
     socket.on("sendResetGameMessage", (data) => {
       io.to(room).emit("getResetGameMessage", data);
     });
-    
+
     socket.on("sendRejectGameMessage", (data) => {
       // io.to(room).emit("getRejectGameMessage", data);
       socket.broadcast.to(room).emit("getRejectGameMessage", data);
     });
-    //leave room
-    socket.leave(room,()=>{
-      io.to(room).emit("userLeaveMessage",'Someone has left the room');
-    })
+
+    //send message if user left the room
+    socket.on("disconnect", () => {
+      io.to(room).emit("userLeaveMessage", "Someone has left the room");
+    });
   });
 
   //when disconnect
   socket.on("disconnect", () => {
+    // io.to(room).emit("userLeaveMessage", "Someone has left the room");
     console.log("a user disconnected!");
   });
 });
