@@ -53,7 +53,11 @@ io.on("connection", (socket) => {
       // io.to(room).emit("getRejectGameMessage", data);
       socket.broadcast.to(room).emit("getRejectGameMessage", data);
     });
-
+   //send draw game message
+   socket.on("sendDrawGameRequest", (data) => {
+    // io.to(room).broadcast.emit("getResetGameRequest", data);
+    socket.broadcast.to(room).emit("getDrawGameRequest", data);
+  });
     //send message if user left the room
     socket.on("disconnect", () => {
       io.to(room).emit("userLeaveMessage", "Someone has left the room");
