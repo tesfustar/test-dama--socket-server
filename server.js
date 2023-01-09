@@ -9,7 +9,7 @@ const io = new Server(httpServer, {
       "http://172.17.104.242:3000",
       "http://localhost:3000",
       "http://192.168.0.143:3000",
-      "http://192.168.0.145:3000",
+      "http://192.168.0.106:3000",
       "http://192.168.0.105:3000",
       "http://172.17.104.253:3000",
       "https://dama-blue.vercel.app",
