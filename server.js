@@ -7,7 +7,7 @@ const io = new Server(httpServer, {
     origin: [
       "https://dama-game-socketio.vercel.app",
       "http://172.17.104.242:3000",
-      "http://192.168.0.118:3000",
+      "http://172.17.104.251:3000",
       "http://192.168.0.113:3000",
       "http://192.168.0.106:3000",
       "http://172.17.104.248:3000",
