@@ -6,11 +6,11 @@ const io = new Server(httpServer, {
   cors: {
     origin: [
       "https://dama-game-socketio.vercel.app",
-      "http://172.17.104.242:3000",
+      "http://172.17.104.252:3000",
       "http://172.17.104.251:3000",
-      "http://192.168.0.113:3000",
-      "http://192.168.0.106:3000",
       "http://192.168.43.253:3000",
+      "http://192.168.0.106:3000",
+      "http://172.17.104.248:3000",
       "http://172.17.104.253:3000",
       "https://dama-blue.vercel.app",
       "https://admin.socket.io",
@@ -20,6 +20,12 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
+  socket.on('getRooms', () => {
+    const rooms = io.sockets.adapter.rooms;
+    const roomList = socket.rooms;
+    socket.emit('rooms', {roomList:roomList,data:"data"});
+    console.log(socket.rooms)
+  });
   // console.log(socket.id)
   //user connection
   console.log("a user connected.");
@@ -68,11 +74,7 @@ io.on("connection", (socket) => {
       io.to(room).emit("userLeaveMessage", "Someone has left the room");
     });
   });
-//grt list of rooms
-socket.on("getRooms", () => {
-  const rooms = Object.keys(io.sockets.adapter.rooms);
-  socket.emit("rooms", rooms);
-});
+
   //when disconnect
   socket.on("disconnect", () => {
     // io.to(room).emit("userLeaveMessage", "Someone has left the room");
