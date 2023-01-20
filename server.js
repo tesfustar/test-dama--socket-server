@@ -68,7 +68,11 @@ io.on("connection", (socket) => {
       io.to(room).emit("userLeaveMessage", "Someone has left the room");
     });
   });
-
+//grt list of rooms
+socket.on("getRooms", () => {
+  const rooms = Object.keys(io.sockets.adapter.rooms);
+  socket.emit("rooms", rooms);
+});
   //when disconnect
   socket.on("disconnect", () => {
     // io.to(room).emit("userLeaveMessage", "Someone has left the room");
