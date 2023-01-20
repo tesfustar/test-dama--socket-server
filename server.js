@@ -19,18 +19,27 @@ const io = new Server(httpServer, {
   },
 });
 
+const rooms = {};
 io.on("connection", (socket) => {
-  socket.on('getRooms', () => {
-    const rooms = io.sockets.adapter.rooms;
-    const roomList = socket.rooms;
-    socket.emit('rooms', {roomList:roomList,data:"data"});
-    console.log(socket.rooms)
+  //send list of rooms
+  // socket.on("getRooms", () => {
+  //   socket.emit("rooms", Object.keys(rooms));
+  // });
+  socket.on("getRooms", () => {
+    const singleUserRooms = Object.keys(rooms).filter(
+      (room) => rooms[room].size === 1
+    );
+    socket.emit("rooms", singleUserRooms);
   });
-  // console.log(socket.id)
+
   //user connection
   console.log("a user connected.");
 
   socket.on("join-room", async (room) => {
+    if (!rooms[room]) {
+      rooms[room] = new Set();
+    }
+    rooms[room].add(socket.id);
     const clients = await io.of("/").in(room).fetchSockets();
     if (clients.length == 2) {
       // io.to(room).emit("started","you can play now")
@@ -69,16 +78,28 @@ io.on("connection", (socket) => {
       // io.to(room).broadcast.emit("getResetGameRequest", data);
       socket.broadcast.to(room).emit("getExitGameRequest", data);
     });
+    //chat within game
+    socket.on("sendChatMessage", (data) => {
+      io.to(room).emit("getChatMessage", data);
+    });
     //send message if user left the room
     socket.on("disconnect", () => {
       io.to(room).emit("userLeaveMessage", "Someone has left the room");
     });
   });
 
+  //leave room
+  socket.on("leave", (room) => {
+    if (rooms[room]) {
+      rooms[room].delete(socket.id);
+    }
+  });
   //when disconnect
   socket.on("disconnect", () => {
-    // io.to(room).emit("userLeaveMessage", "Someone has left the room");
-    console.log("a user disconnected!");
+    Object.keys(rooms).forEach((room) => {
+      rooms[room].delete(socket.id);
+      if (rooms[room].size === 0) delete rooms[room];
+    });
   });
 });
 instrument(io, {
