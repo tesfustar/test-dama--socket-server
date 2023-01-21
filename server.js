@@ -104,6 +104,7 @@ io.on("connection", (socket) => {
 });
 instrument(io, {
   auth: false,
+  mode: "production"
 });
 const PORT = process.env.PORT || 7744;
 httpServer.listen(PORT);
