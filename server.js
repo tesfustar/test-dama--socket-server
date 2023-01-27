@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
       socket.join(room);
       io.to(room).emit("private-room", "you are now in private room");
     }
-    //send and get message
+    //send and get messages
 
     socket.on("sendMessage", (data) => {
       io.to(room).emit("getMessage", data);
