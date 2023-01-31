@@ -63,7 +63,7 @@ const removePublicGame = (code, type) => {
     temparr = [];
   }
 
-  console.log("********", publicGames, "=======", temparr);
+  console.log("******", publicGames, "=====", temparr);
 };
 
 io.on("connection", (socket) => {
