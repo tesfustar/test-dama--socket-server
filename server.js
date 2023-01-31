@@ -62,8 +62,7 @@ const checkDuration = (time) => {
  // console.log({result})
 }
 
-  console.log("********", publicGames, "=======", temparr);
-};
+console.log(`⚡: Server is live! PORT = ` +  7744);
 
 io.on("connection", (socket) => {
   console.log(socket.id)
@@ -94,14 +93,9 @@ io.on("connection", (socket) => {
 
     socket.emit("getPublicGames", temparr)
 
-  socket.on("publicGames", () => {
-    console.log("public");
-    let temparr = [];
-    publicGames.forEach((game) => {
-      temparr.push({ ...game, time: createReadableDate(game.time) });
-    });
-    io.to(socket.id).emit("getPublicGames", temparr);
-  });
+    if(removedArr.length > 0) {
+      removedArr.forEach(code => { removePublicGame(code, "code") })
+    }
 
     temparr = []
     removedArr = []
