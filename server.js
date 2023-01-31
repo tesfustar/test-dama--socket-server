@@ -94,7 +94,7 @@ io.on("connection", (socket) => {
     publicGames.forEach((game) => {
       temparr.push({ ...game, time: createReadableDate(game.time) });
     });
-    io.to(socket.id).emit("getPublicGames", temparr);
+       socket.emit("getPublicGames", temparr);
   });
 
   socket.on("joinPublicGame", (codeId) => {
