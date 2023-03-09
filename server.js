@@ -178,6 +178,18 @@ io.on("connection", (socket) => {
       rooms[room].delete(socket.id);
     }
   });
+  socket.on("leave", (room) => {
+    socket.leave(room);
+    console.log(`user leave a room ${room}`);
+    if (rooms[room]) {
+      rooms[room].delete(socket.id);
+      if (rooms[room].size === 0) {
+        delete rooms[room];
+        console.log(`Room ${room} has been deleted`);
+      }
+    }
+  });
+  
   //when disconnect
   socket.on("disconnect", () => {
     console.log("user disconnected")
