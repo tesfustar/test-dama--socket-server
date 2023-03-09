@@ -204,7 +204,7 @@ io.on("connection", (socket) => {
 
 instrument(io, {
   auth: false,
-  mode: "production",
+  mode: "development",
 });
 
 const PORT = process.env.PORT || 7744;
