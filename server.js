@@ -171,13 +171,13 @@ io.on("connection", (socket) => {
   });
 
   //leave room
-  socket.on("leave", (room) => {
-    socket.leave(room);
-    console.log(`user leave a room ${room}`)
-    if (rooms[room]) {
-      rooms[room].delete(socket.id);
-    }
-  });
+  // socket.on("leave", (room) => {
+  //   socket.leave(room);
+  //   console.log(`user leave a room ${room}`)
+  //   if (rooms[room]) {
+  //     rooms[room].delete(socket.id);
+  //   }
+  // });
   socket.on("leave", (room) => {
     socket.leave(room);
     console.log(`user leave a room ${room}`);
