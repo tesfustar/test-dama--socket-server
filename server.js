@@ -148,6 +148,11 @@ io.on("connection", (socket) => {
       // io.to(room).emit("getRejectGameMessage", data);
       socket.to(room).emit("getRejectGameMessage", { data, type: "draw-rejected" });
     });
+    //new added for reject game requests
+    socket.on("sendRejectNewGameMessage", (data) => {
+      // io.to(room).emit("getRejectGameMessage", data);
+      socket.to(room).emit("getRejectNewGameMessage", { data, type: "New-Game-rejected" });
+    });
     //send draw game message
     socket.on("sendDrawGameRequest", (data) => {
       // io.to(room).broadcast.emit("getResetGameRequest", data);
