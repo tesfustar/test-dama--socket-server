@@ -172,12 +172,14 @@ io.on("connection", (socket) => {
 
   //leave room
   socket.on("leave", (room) => {
+    console.log("user leave a room")
     if (rooms[room]) {
       rooms[room].delete(socket.id);
     }
   });
   //when disconnect
   socket.on("disconnect", () => {
+    console.log("user disconnected")
     Object.keys(rooms).forEach((room) => {
       rooms[room].delete(socket.id);
       if (rooms[room].size === 0) delete rooms[room];
