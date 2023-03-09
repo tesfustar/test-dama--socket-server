@@ -172,7 +172,8 @@ io.on("connection", (socket) => {
 
   //leave room
   socket.on("leave", (room) => {
-    console.log("user leave a roomv")
+    socket.leave(room);
+    console.log("user leave a room")
     if (rooms[room]) {
       rooms[room].delete(socket.id);
     }
