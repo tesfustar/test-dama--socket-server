@@ -116,7 +116,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("sendCrownType", (data) => {
-      io.to(room).emit("getCrownType", data);
+      socket.broadcast.to(room).emit("getCrownType", data);
     });
 
     socket.on("sendGameMessage", (data) => {
